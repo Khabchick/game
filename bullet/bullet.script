@@ -1,0 +1,35 @@
+go.property("speedX", 1) -- <1>
+go.property("speedY", 1) -- <1>
+
+local b_speed = 1600
+function init(self)
+	print(go.get_parent())
+	local p = go.get_position()
+	local x = self.speedX - p.x
+	local y = self.speedY - p.y
+	local v = vmath.vector3(x, y, 0)
+	local newV = vmath.normalize(v)
+	self.x = newV.x
+	self.y = newV.y
+end
+
+function update(self, dt)
+	local p = go.get_position()
+	p.x = p.x + self.x*b_speed * dt
+	p.y = p.y + self.y*b_speed* dt
+	if p.x < -320 or p.y < -320 or p.y > 9000 or p.x > 9000 then
+		go.delete()
+	end
+	go.set_position(p)
+end
+
+function on_message(self, message_id, message, sender)
+	-- print(message.other_id)
+	-- print(sender)
+	-- print(msg.url())
+	-- print(go.get_parent())
+	-- if message_id == hash("collision_response") then
+	-- 	-- particlefx.play("#bullet_particle")
+	-- 	go.delete()
+	-- end
+end
